@@ -1,0 +1,69 @@
+{
+  "mint": {
+    "title": "Somnia NFT Minting",
+    "subtitle": "Mint your NFTs using STT or ERC20 tokens",
+    "sections": {
+      "conect": "Connect Wallet",
+      "mint": "Mint NFT",
+      "yourNFTs": "Your NFTs"
+    },
+    "remainingMints": "You can mint {count} more NFT",
+    "remainingMintsPlural": "You can mint {count} more NFTs",
+    "price": "Price: {amount} {currency}",
+    "insufficientBalance": "Insufficient balance",
+    "buttons": {
+      "mint": "Mint {count} NFT",
+      "mintPlural": "Mint {count} NFTs",
+      "approving": "Approving...",
+      "minting": "Minting...",
+      "increment": "+",
+      "decrement": "-"
+    },
+    "methods": {
+      "native": "STT",
+      "erc20": "ERC20"
+    }
+  },
+  "wallet": {
+    "connect": "Connect {name}",
+    "connecting": "connecting",
+    "connected": "Connected: {address}",
+    "disconnect": "Disconnect",
+    "switchNetwork": "Switch to Somnia Devnet",
+    "switching": "Switching..."
+  },
+  "nft": {
+    "loading": "Loading...",
+    "token": "Token #{id}",
+    "noNFTs": "You don't have any NFTs yet",
+    "failedToLoad": "Failed to load NFT metadata"
+  },
+  "toast": {
+    "success": {
+      "minted": {
+        "title": "NFT Minted",
+        "description": "Successfully minted {count} NFT(s)"
+      },
+      "mintedERC20": {
+        "title": "NFT Minted",
+        "description": "Successfully minted {count} NFT(s) with ERC20"
+      },
+      "approved": {
+        "title": "Approval Successful",
+        "description": "ERC20 tokens approved for minting"
+      }
+    },
+    "error": {
+      "transaction": {
+        "title": "Transaction failed",
+        "description": "Unknown error occurred"
+      },
+      "metadata": {
+        "title": "Failed to fetch metadata"
+      }
+    }
+  },
+  "footer": {
+    "built": "Built for Somnia Network"
+  }
+} 
