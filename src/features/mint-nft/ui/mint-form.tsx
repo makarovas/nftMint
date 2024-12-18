@@ -1,12 +1,21 @@
 'use client';
 
+import { useI18n } from '@/shared/i18n/hooks';
 import { Button } from '@/shared/ui/button';
+import { useEffect, useState } from 'react';
 import { formatEther } from 'viem';
 import { useMint } from '../model/use-mint';
 import { MintMethod } from './mint-method';
-import { useI18n } from '@/shared/i18n/hooks/use-translations'
 
 export function MintForm() {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(typeof window !== 'undefined');
+  }, []);
+
+  const t = useI18n();
+
   const {
     amount,
     setAmount,
@@ -21,7 +30,9 @@ export function MintForm() {
     isConnected,
   } = useMint();
 
-  const t = useI18n()
+  if (!isClient) {
+    return null;
+  }
 
   if (!isConnected) return null;
 
@@ -29,18 +40,28 @@ export function MintForm() {
     <div className='flex flex-col gap-4'>
       <div className='flex flex-col gap-2'>
         <p className='text-sm text-gray-500'>
-          {t(remainingMints === 1 ? 'mint.remainingMints' : 'mint.remainingMintsPlural', {
-            count: remainingMints
-          })}
+          {t(
+            remainingMints === 1
+              ? 'mint.remainingMints'
+              : 'mint.remainingMintsPlural',
+            {
+              count: remainingMints,
+            }
+          )}
         </p>
         <p className='text-sm text-gray-500'>
           {t('mint.price', {
             amount: formatEther(price),
-            currency: method === 'native' ? t('mint.methods.native') : t('mint.methods.erc20')
+            currency:
+              method === 'native'
+                ? t('mint.methods.native')
+                : t('mint.methods.erc20'),
           })}
         </p>
         {!hasEnoughBalance && (
-          <p className='text-sm text-red-500'>{t('mint.insufficientBalance')}</p>
+          <p className='text-sm text-red-500'>
+            {t('mint.insufficientBalance')}
+          </p>
         )}
       </div>
 
@@ -58,7 +79,9 @@ export function MintForm() {
         <Button
           variant='outline'
           size='sm'
-          onClick={() => setAmount((prev) => Math.min(remainingMints, prev + 1))}
+          onClick={() =>
+            setAmount((prev) => Math.min(remainingMints, prev + 1))
+          }
         >
           {t('mint.buttons.increment')}
         </Button>
@@ -74,7 +97,7 @@ export function MintForm() {
             ? t('mint.buttons.approving')
             : t('mint.buttons.minting')
           : t(amount === 1 ? 'mint.buttons.mint' : 'mint.buttons.mintPlural', {
-              count: amount
+              count: amount,
             })}
       </Button>
     </div>

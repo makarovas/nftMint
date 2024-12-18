@@ -2,11 +2,14 @@
 
 import { NFT_ABI } from '@/shared/api/contracts/nft';
 import { CONTRACTS } from '@/shared/config/contracts';
+import { useI18n } from '@/shared/i18n/hooks';
 import { useEffect, useState } from 'react';
 import { useContractRead } from 'wagmi';
 import type { NFTCardProps, NFTMetadata } from '../model/types';
 
 export function NFTCard({ tokenId }: NFTCardProps) {
+  const t = useI18n();
+
   const [metadata, setMetadata] = useState<NFTMetadata | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -25,7 +28,7 @@ export function NFTCard({ tokenId }: NFTCardProps) {
       try {
         setIsLoading(true);
         const response = await fetch(tokenURI);
-        if (!response.ok) throw new Error('Failed to fetch metadata');
+        if (!response.ok) throw new Error(t('error.metadata.title'));
 
         const contentType = response.headers.get('content-type');
 
@@ -36,14 +39,12 @@ export function NFTCard({ tokenId }: NFTCardProps) {
           contentType?.includes('image/svg+xml') ||
           tokenURI.startsWith('data:image/svg+xml')
         ) {
-          // Если получаем SVG напрямую
           setMetadata({
             image: tokenURI,
             name: `Token #${tokenId}`,
             description: 'SVG NFT',
           });
         } else {
-          // Для других форматов изображений
           setMetadata({
             image: tokenURI,
             name: `Token #${tokenId}`,
@@ -52,7 +53,7 @@ export function NFTCard({ tokenId }: NFTCardProps) {
         }
       } catch (err) {
         setError(
-          err instanceof Error ? err.message : 'Failed to load NFT metadata'
+          err instanceof Error ? err.message : t('error.metadata.title')
         );
       } finally {
         setIsLoading(false);
@@ -67,7 +68,7 @@ export function NFTCard({ tokenId }: NFTCardProps) {
       <div className='aspect-square w-full bg-gray-100 rounded-md overflow-hidden'>
         {isLoading ? (
           <div className='w-full h-full flex items-center justify-center'>
-            Loading...
+            {t('nft.loading')}
           </div>
         ) : error ? (
           <div className='w-full h-full flex items-center justify-center text-red-500'>
