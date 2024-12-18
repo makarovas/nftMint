@@ -1,4 +1,3 @@
-import { jest } from '@jest/globals';
 import { cn } from './utils';
 
 describe('cn utility', () => {
@@ -9,4 +8,4 @@ describe('cn utility', () => {
     expect(cn('base', false && 'extra')).toBe('base');
     expect(cn('base', true && 'extra')).toBe('base extra');
   });
-}); 
+});
