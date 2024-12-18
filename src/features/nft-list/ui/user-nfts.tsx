@@ -3,11 +3,17 @@
 import { NFTCard } from '@/entities/nft';
 import { NFT_ABI } from '@/shared/api/contracts/nft';
 import { CONTRACTS } from '@/shared/config/contracts';
+import { useEffect, useState } from 'react';
 import { useAccount, useContractRead } from 'wagmi';
 
 export function UserNFTs() {
-  const { address, isConnected } = useAccount();
+  const [isClient, setIsClient] = useState(false);
 
+  useEffect(() => {
+    setIsClient(typeof window !== 'undefined');
+  }, []);
+
+  const { address, isConnected } = useAccount();
   const { data: userTokens } = useContractRead({
     address: CONTRACTS.NFT.address as `0x${string}`,
     abi: NFT_ABI,
@@ -15,6 +21,10 @@ export function UserNFTs() {
     args: [address!],
     enabled: Boolean(address),
   });
+
+  if (!isClient) {
+    return null;
+  }
 
   if (!isConnected) {
     return null;
