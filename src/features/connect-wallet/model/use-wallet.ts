@@ -1,16 +1,18 @@
-'use client'
+'use client';
 
-import { useAccount, useConnect, useDisconnect, useNetwork, useSwitchNetwork } from 'wagmi'
-import { somniaDevnet } from '@/config/chains'
+import { somniaDevnet } from '@/config/chains';
+import { useAccount, useConnect, useDisconnect, useSwitchChain } from 'wagmi';
 
 export function useWallet() {
-  const { address, isConnected } = useAccount()
-  const { connect, connectors, isLoading: isConnecting, pendingConnector } = useConnect()
-  const { disconnect } = useDisconnect()
-  const { chain } = useNetwork()
-  const { switchNetwork, isLoading: isSwitching } = useSwitchNetwork()
+  const { address, isConnected } = useAccount();
+  const { connect, connectors, status: connectStatus } = useConnect();
+  const isConnecting = connectStatus === 'pending';
+  const { disconnect } = useDisconnect();
+  const { chain } = useAccount();
+  const { switchChain, status: switchStatus } = useSwitchChain();
+  const isSwitching = switchStatus === 'pending';
 
-  const isWrongNetwork = chain?.id !== somniaDevnet.id
+  const isWrongNetwork = chain?.id !== somniaDevnet.id;
 
   return {
     address,
@@ -18,10 +20,9 @@ export function useWallet() {
     connect,
     connectors,
     isConnecting,
-    pendingConnector,
     disconnect,
     isWrongNetwork,
-    switchNetwork,
-    isSwitching
-  }
-} 
+    switchChain,
+    isSwitching,
+  };
+}

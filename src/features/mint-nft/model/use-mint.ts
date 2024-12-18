@@ -1,12 +1,18 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useAccount, useContractWrite, useWaitForTransaction, useContractRead, useBalance } from 'wagmi';
-import { parseEther } from 'viem';
-import { CONTRACTS } from '@/shared/config/contracts';
-import { NFT_ABI } from '@/shared/api/contracts/nft';
-import { ERC20_ABI } from '@/shared/api/contracts/erc20';
 import { useToast } from '@/hooks/use-toast';
+import { ERC20_ABI } from '@/shared/api/contracts/erc20';
+import { NFT_ABI } from '@/shared/api/contracts/nft';
+import { CONTRACTS } from '@/shared/config/contracts';
+import { useEffect, useState } from 'react';
+import { parseEther } from 'viem';
+import {
+  useAccount,
+  useBalance,
+  useContractRead,
+  useContractWrite,
+  useWaitForTransaction,
+} from 'wagmi';
 
 export function useMint() {
   const [amount, setAmount] = useState(1);
@@ -33,9 +39,10 @@ export function useMint() {
 
   const remainingMints = 50 - (userMintedAmount ? Number(userMintedAmount) : 0);
   const price = parseEther('0.1111') * BigInt(amount);
-  const hasEnoughBalance = method === 'native' 
-    ? (nativeBalance?.value ?? 0n) >= price
-    : (erc20Balance?.value ?? 0n) >= price;
+  const hasEnoughBalance =
+    method === 'native'
+      ? (nativeBalance?.value ?? 0n) >= price
+      : (erc20Balance?.value ?? 0n) >= price;
 
   const { write: approve, data: approveData } = useContractWrite({
     address: CONTRACTS.ERC20.address as `0x${string}`,
@@ -112,13 +119,21 @@ export function useMint() {
 
   useEffect(() => {
     if (approveData?.hash) {
-      addToast('success', 'Approval Successful', 'ERC20 tokens approved for minting');
+      addToast(
+        'success',
+        'Approval Successful',
+        'ERC20 tokens approved for minting'
+      );
     }
   }, [approveData?.hash, addToast]);
 
   useEffect(() => {
     if (mintERC20Data?.hash) {
-      addToast('success', 'NFT Minted', `Successfully minted ${amount} NFT(s) with ERC20`);
+      addToast(
+        'success',
+        'NFT Minted',
+        `Successfully minted ${amount} NFT(s) with ERC20`
+      );
     }
   }, [mintERC20Data?.hash, amount, addToast]);
 
@@ -133,6 +148,6 @@ export function useMint() {
     remainingMints,
     hasEnoughBalance,
     price,
-    isConnected
+    isConnected,
   };
 }

@@ -29,7 +29,7 @@
     "connecting": "connecting",
     "connected": "Connected: {address}",
     "disconnect": "Disconnect",
-    "switchNetwork": "Switch to Somnia Devnet",
+    "switchChain": "Switch to Somnia Devnet",
     "switching": "Switching..."
   },
   "nft": {
@@ -66,4 +66,4 @@
   "footer": {
     "built": "Built for Somnia Network"
   }
-} 
+}

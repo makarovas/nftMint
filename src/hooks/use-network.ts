@@ -1,14 +1,14 @@
-'use client'
+'use client';
 
-import { useEffect } from 'react'
-import { useNetwork, useSwitchNetwork } from 'wagmi'
-import { somniaDevnet } from '@/config/chains'
-import { useToast } from './use-toast'
+import { somniaDevnet } from '@/config/chains';
+import { useEffect } from 'react';
+import { useAccount, useSwitchChain } from 'wagmi';
+import { useToast } from './use-toast';
 
 export function useNetworkCheck() {
-  const { chain } = useNetwork()
-  const { switchNetwork } = useSwitchNetwork()
-  const { addToast } = useToast()
+  const { chain } = useAccount();
+  const { switchChain } = useSwitchChain();
+  const { addToast } = useToast();
 
   useEffect(() => {
     if (chain && chain.id !== somniaDevnet.id) {
@@ -16,12 +16,12 @@ export function useNetworkCheck() {
         'error',
         'Wrong Network',
         'Please switch to Somnia Devnet to use this application'
-      )
-      switchNetwork?.(somniaDevnet.id)
+      );
+      switchChain?.(somniaDevnet.id);
     }
-  }, [chain, switchNetwork, addToast])
+  }, [chain, switchChain, addToast]);
 
   return {
-    isCorrectNetwork: chain?.id === somniaDevnet.id
-  }
-} 
+    isCorrectNetwork: chain?.id === somniaDevnet.id,
+  };
+}

@@ -14,10 +14,9 @@ export function ConnectButton() {
     connect,
     connectors,
     isConnecting,
-    pendingConnector,
     disconnect,
     isWrongNetwork,
-    switchNetwork,
+    switchChain,
     isSwitching,
   } = useWallet();
 
@@ -32,7 +31,7 @@ export function ConnectButton() {
         </div>
         {isWrongNetwork && (
           <Button
-            onClick={() => switchNetwork?.(somniaDevnet.id)}
+            onClick={() => switchChain?.({ chainId: somniaDevnet.id })}
             disabled={false}
             variant='default'
             size='sm'
@@ -54,9 +53,7 @@ export function ConnectButton() {
           className='w-full'
         >
           Connect {connector.name}
-          {isConnecting &&
-            connector.id === pendingConnector?.id &&
-            t('wallet.connecting')}
+          {isConnecting && t('wallet.connecting')}
         </Button>
       ))}
     </div>
