@@ -1,6 +1,6 @@
 'use client';
 
-import { config } from '@/config/wagmi';
+import { wagmiConfig } from '@/config/wagmi';
 import messages from '@/shared/i18n/locales/en.json';
 import { NextIntlClientProvider } from 'next-intl';
 import { WagmiConfig } from 'wagmi';
@@ -19,7 +19,7 @@ export function Providers({
       messages={messages}
       timeZone={timeZone}
     >
-      <WagmiConfig config={config}>{children}</WagmiConfig>
+      <WagmiConfig config={wagmiConfig}>{children}</WagmiConfig>
     </NextIntlClientProvider>
   );
 }

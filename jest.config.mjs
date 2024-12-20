@@ -13,11 +13,20 @@ const customJestConfig = {
   transform: {
     '^.+\\.(t|j)sx?$': ['babel-jest', { useESM: true }],
   },
-  transformIgnorePatterns: ['/node_modules/(?!(wagmi|@wagmi|@tanstack|viem)/)'],
+  transformIgnorePatterns: [
+    '/node_modules/(?!(wagmi|@wagmi|@tanstack|viem|next-intl)/)',
+  ],
   extensionsToTreatAsEsm: ['.ts', '.tsx', '.jsx'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.[jt]sx?$',
   collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.d.ts'],
+  testTimeout: 20000,
+  verbose: true,
+  globals: {
+    'ts-jest': {
+      useESM: true,
+    },
+  },
 };
 
 export default createJestConfig(customJestConfig);

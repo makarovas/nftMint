@@ -1,16 +1,8 @@
-import { somniaDevnet } from '@/shared/config/chains';
+import { wagmiConfig } from '@/config/wagmi';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { renderHook } from '@testing-library/react';
-import { ReactNode } from 'react';
-import { configureChains, createConfig, WagmiConfig } from 'wagmi';
-import { publicProvider } from 'wagmi/providers/public';
-
-const { publicClient } = configureChains([somniaDevnet], [publicProvider()]);
-
-const config = createConfig({
-  autoConnect: false,
-  publicClient,
-});
+import { render, renderHook, RenderOptions } from '@testing-library/react';
+import { ReactElement } from 'react';
+import { WagmiConfig } from 'wagmi';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,18 +12,23 @@ const queryClient = new QueryClient({
   },
 });
 
-export function TestWrapper({ children }: { children: ReactNode }) {
+const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <WagmiConfig config={config}>{children}</WagmiConfig>
+      <WagmiConfig config={wagmiConfig}>{children}</WagmiConfig>
     </QueryClientProvider>
   );
-}
+};
 
-export function renderHookWithProviders<Result, Props>(
-  hook: (props: Props) => Result
-) {
-  return renderHook(hook, {
-    wrapper: TestWrapper,
-  });
-}
+const customRender = (
+  ui: ReactElement,
+  options?: Omit<RenderOptions, 'wrapper'>
+) => render(ui, { wrapper: AllTheProviders, ...options });
+
+export const renderHookWithProviders = <Result, Props>(
+  hook: (props: Props) => Result,
+  options?: Omit<RenderOptions, 'wrapper'>
+) => renderHook(hook, { wrapper: AllTheProviders, ...options });
+
+export * from '@testing-library/react';
+export { customRender as render };
