@@ -1,6 +1,7 @@
 import { locales } from '@/config/i18n';
 import { useLocale, useTimeZone } from 'next-intl';
 import { getRequestConfig } from 'next-intl/server';
+
 export default getRequestConfig(async () => {
   const locale = useLocale();
   const timeZone = useTimeZone();
