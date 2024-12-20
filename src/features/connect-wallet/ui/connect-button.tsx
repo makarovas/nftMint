@@ -1,11 +1,17 @@
 'use client';
 
 import { somniaDevnet } from '@/config/chains';
-import { useI18n } from '@/shared/i18n/hooks/use-translations';
+import { useI18n } from '@/shared/i18n/hooks';
 import { Button } from '@/shared/ui/button';
+import { useEffect, useState } from 'react';
 import { useWallet } from '../model/use-wallet';
 
 export function ConnectButton() {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(typeof window !== 'undefined');
+  }, []);
   const t = useI18n();
 
   const {
@@ -20,6 +26,10 @@ export function ConnectButton() {
     switchNetwork,
     isSwitching,
   } = useWallet();
+
+  if (!isClient) {
+    return null;
+  }
 
   if (isConnected) {
     return (

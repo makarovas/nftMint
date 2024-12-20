@@ -1,6 +1,6 @@
 'use client';
 
-import { useI18n } from '@/shared/i18n/hooks/use-translations';
+import { useI18n } from '@/shared/i18n/hooks';
 import { MintSection } from '@/widgets/mint-section';
 import { NFTSection } from '@/widgets/nft-section';
 

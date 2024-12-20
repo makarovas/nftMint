@@ -12,8 +12,13 @@ export function Providers({
   children: React.ReactNode;
   locale: string;
 }) {
+  const timeZone = 'Europe/Vienna';
   return (
-    <NextIntlClientProvider locale={locale} messages={messages}>
+    <NextIntlClientProvider
+      locale={locale}
+      messages={messages}
+      timeZone={timeZone}
+    >
       <WagmiConfig config={config}>{children}</WagmiConfig>
     </NextIntlClientProvider>
   );
