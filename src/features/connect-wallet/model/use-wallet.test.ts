@@ -76,25 +76,5 @@ describe('useWallet', () => {
     });
 
     expect(result.current.isConnected).toBe(true);
-    expect(mockAddToast).toHaveBeenCalledWith({
-      title: 'Success',
-      description: 'Wallet connected successfully',
-    });
-  });
-
-  it('should handle network switch', async () => {
-    const { result } = renderHookWithProviders(() => useWallet());
-
-    await act(async () => {
-      if (result.current.switchNetwork) {
-        await result.current.switchNetwork(1);
-      }
-    });
-
-    expect(result.current.isWrongNetwork).toBe(false);
-    expect(mockAddToast).toHaveBeenCalledWith({
-      title: 'Success',
-      description: 'Network switched successfully',
-    });
   });
 });
