@@ -1,18 +1,10 @@
-import { createConfig, configureChains } from 'wagmi'
-import { publicProvider } from 'wagmi/providers/public'
-import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
-import { somniaDevnet } from '@/config/chains'
+import { somniaDevnet } from '@/shared/config/chains';
+import { configureChains, createConfig } from 'wagmi';
+import { publicProvider } from 'wagmi/providers/public';
 
-const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [somniaDevnet],
-  [publicProvider()]
-)
+const { publicClient } = configureChains([somniaDevnet], [publicProvider()]);
 
-export const config = createConfig({
-  autoConnect: true,
-  connectors: [
-    new MetaMaskConnector({ chains }),
-  ],
+export const wagmiConfig = createConfig({
+  autoConnect: false,
   publicClient,
-  webSocketPublicClient,
-}) 
+});
