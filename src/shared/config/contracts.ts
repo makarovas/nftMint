@@ -7,4 +7,7 @@ export const CONTRACTS = {
   ERC20: {
     address: env.erc20ContractAddress,
   },
-} as const 
+  IG_COIN: {
+    address: env.igCoinContractAddress,
+  },
+} as const;
